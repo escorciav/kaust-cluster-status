@@ -9,14 +9,21 @@ def parse_slurm_line(x, strip=True, add_ngpu=True):
         ind_slice = slice(1, -1)
 
     data = x[ind_slice].split(' ')
+    # Non-generalizable depends on your SLURM config
+    # GPUs must be set as SLURM-GRES.
+    # Need small patch if you manage other resources with GRES.
     if add_ngpu:
-        # cluter specific
         gpu_data = data[-1]
-        if ':' not in gpu_data:
-            num_gpus = 0
-        else:
-            num_gpus = int(gpu_data.split(':')[-1])
-        data.append(num_gpus)
+        num_gpus = 0
+        gpu_name = 'null'
+        if ':' in gpu_data:
+            seq_gpu_data = gpu_data.split(':')
+            if len(seq_gpu_data) == 2:
+                _, num_gpus = seq_gpu_data
+            else:
+                _, gpu_name, num_gpus = seq_gpu_data
+            num_gpus = int(num_gpus)
+        data.extend([num_gpus, gpu_name])
 
     return data
 
@@ -32,8 +39,8 @@ def cluster_info(gpu_filter=None, add_ngpu=True):
     keys = parse_slurm_line(data_keys, add_ngpu=False)
     feat_ind = -2
     if add_ngpu:
-        keys += ['NUM_GPUS']
-        feat_ind -= 1
+        keys += ['NUM_GPUS', 'GPU_NAME']
+        feat_ind -= 2
     values = []
     for i in data_values:
         data = parse_slurm_line(i, add_ngpu=add_ngpu)
@@ -56,7 +63,9 @@ def queue_status(add_ngpu=True):
 
     # TODO: fix based on output
     values = [parse_slurm_line(i, add_ngpu=add_ngpu) for i in data_values]
-    keys = parse_slurm_line(data_keys, add_ngpu=False) + ['NUM_GPUS']
+    keys = parse_slurm_line(data_keys, add_ngpu=False)
+    if add_ngpu:
+        keys += ['NUM_GPUS', 'GPU_NAME']
     table = pd.DataFrame(values, columns=keys)
     return table
 
@@ -84,5 +93,5 @@ def gpu_avail(verbose=True, gpu_filter='', add_ngpu=True):
 
     if verbose:
         print()
-    return node_info.loc[:, ['NUM_GPUS']]
+    return node_info.loc[:, ['NUM_GPUS', 'GPU_NAME']]
 
