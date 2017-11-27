@@ -6,6 +6,7 @@ ADD_NGPU = True
 
 def main():
     gpus = gpu_avail(gpu_filter=GPU_FILTER, add_ngpu=ADD_NGPU)
+    gpus = gpus.loc[gpus['NUM_GPUS'] > 0, :]
     print(gpus)
 
 
