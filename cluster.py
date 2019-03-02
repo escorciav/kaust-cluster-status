@@ -95,3 +95,22 @@ def gpu_avail(verbose=True, gpu_filter='', add_ngpu=True):
         print()
     return node_info.loc[:, ['NUM_GPUS', 'GPU_NAME']]
 
+
+def gpu_status(verbose=True, gpu_filter='', add_ngpu=True):
+    queue = queue_status(add_ngpu=add_ngpu)
+    ind_running = queue['ST'] == 'R'
+    running_jobs = queue.loc[ind_running, :]
+    running_jobs_gbn = running_jobs.groupby('NODELIST')
+    node_info = cluster_info(gpu_filter=gpu_filter, add_ngpu=add_ngpu)
+    node_info.set_index('HOSTNAMES', inplace=True)
+
+    used_gpus = []
+    indices = []
+    for node, group in running_jobs_gbn:
+        if node not in node_info.index:
+            continue
+        used_gpus.append(group.loc[:, 'NUM_GPUS'].sum())
+        indices.append(node)
+    node_info['USED_GPUS'] = pd.Series(used_gpus, index=indices)
+
+    return node_info.loc[:, ['GPU_NAME', 'USED_GPUS', 'NUM_GPUS']]
