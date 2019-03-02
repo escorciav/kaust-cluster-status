@@ -1,14 +1,28 @@
 {% extends "layout.html" %}
 
-{% block title %}Skynet GPUs{% endblock %}
+{% block title %}{{ cluster }} GPUs{% endblock %}
 
 {% block head %}
 {{ super() }}
-<!-- add to anything to the head here -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 {% endblock %}
 
+{% block bodyend %}
+{{ super() }}
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // https://mdbootstrap.com/docs/jquery/tables/sort/
+        $('#avail-gpu-table').DataTable({
+            "ordering": true // false to disable sorting (or any other option)
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+</script>
+{% endblock%}
+
 {% block content %}
-<table class="table">
+<table id="avail-gpu-table" class="table table-striped table-bordered">
     <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
