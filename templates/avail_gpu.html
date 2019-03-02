@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}Skynet GPUs{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- add to anything to the head here -->
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Hostname</th>
+            <th scope="col">GPU</th>
+            <th scope="col">Used GPUs</th>
+            <th scope="col">GPU Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(0, num_nodes) %}
+        <tr>
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ nodes[i]['name'] }}</td>
+            <td>{{ nodes[i]['gpu'] }}</td>
+            <td>{{ nodes[i]['used'] }}</td>
+            <td>{{ nodes[i]['count'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
