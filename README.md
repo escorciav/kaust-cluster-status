@@ -14,7 +14,7 @@ Requirements: python-3, pandas
 
     ```bash
     conda activate cluster_status
-    FLASK_PORT=5000; FLASK_APP=skynet_flask.py flask run --port=$FLASK_PORT
+    FLASK_PORT=5000; FLASK_APP=server.py flask run --port=$FLASK_PORT
     ```
 
   1. @ibex `python gdragon.py`
