@@ -52,3 +52,41 @@ Grab info about nodes
 ### Available GPUs
 
 Behind scenes combines [cluster info](#Cluster-info) and `squeue -o "%u %i %t %b %N"`
+
+## TODO - Help wanted
+
+Implement the feats described in issues #9, #5 .
+
+- Get users
+
+  `sacctmgr list users --noheader format=User%-20`
+
+- Get gres list
+
+  `scontrol show config | grep -e "GresTypes"`
+
+- Get partitions list
+
+  `scontrol show partitions | grep PartitionName`
+
+- List of unaveilable nodes
+
+  `sinfo -N --states=DOWN,DRAIN,DRAINED,DRAINING -o \"%N\" --noheader`
+
+- List of nodes or nodes in given partition
+
+  `sinfo -h -o %n`
+
+  `sinfo -h -p $partition_list -o %n`
+
+- Extract computer info
+
+  `scontrol show nodes --oneliner --detail | sed 's/\\s/\\n/g' | grep -e "NodeName=" -e "Gres=" -e "GresUsed" -e "CfgTRES=" -e "AllocTRES=" -e "Partitions="`
+
+- List jobs
+
+  `scontrol show jobs --oneliner --detail | grep "JobState=RUNNING" | sed 's/\\s/\\n/g' | grep -e "JobId" -e "NumNodes" -e "ArrayJobId" -e "ArrayTaskId" -e "JobName" -e "UserId" -e "StartTime" -e "Partition" -e "^Nodes=" -e "CPU_IDs" -e "Mem=" -e "Gres=" -e "TRES=" -e "TresPerNode="`
+
+  Tested in ibex. `Gres` did not work instead @escorciav found `TresPerNode` or `GRES_IDX`.
+
+Credits to [situpf](https://github.com/situpf/smem)
