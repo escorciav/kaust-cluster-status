@@ -19,3 +19,10 @@ def skynet_gpus():
         )
     return render_template('avail_gpu.html', cluster='Skynet',
                            num_nodes=len(nodes), nodes=nodes)
+
+
+if __name__ == '__main__':
+    from cluster import cluster_info, queue_status, gpu_avail
+    print(cluster_info(gpu_filter=GPU_FILTER, add_ngpu=ADD_NGPU))
+    print(queue_status(add_ngpu=ADD_NGPU))
+    print(gpu_avail(gpu_filter=GPU_FILTER, add_ngpu=ADD_NGPU))

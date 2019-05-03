@@ -53,6 +53,16 @@ Grab info about nodes
 
 Behind scenes combines [cluster info](#Cluster-info) and `squeue -o "%u %i %t %b %N"`
 
+## Extras
+
+1. Show reservation
+
+  `scontrol show reservation | grep -A 3 GROUP_IVUL`
+
+2. List node info
+
+  `scontrol -o show node`
+
 ## TODO - Help wanted
 
 Implement the feats described in issues #9, #5 .
