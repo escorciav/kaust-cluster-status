@@ -10,22 +10,18 @@ Requirements: python-3, pandas
 
 2. Launch servers
 
-  1. @skynet
+    1. @skynet
 
-    ```bash
-    conda activate cluster_status
-    FLASK_PORT=5000; FLASK_APP=server.py flask run --port=$FLASK_PORT
-    ```
+        ```bash
+        conda activate cluster_status
+        FLASK_PORT=5000; FLASK_APP=server.py flask run --port=$FLASK_PORT
+        ```
 
-  1. @ibex `python gdragon.py`
+    1. @ibex `python gdragon.py`
 
-3. (Optional) Expose server with ngrok
+3. (Optional) Expose server with [serveo](https://serveo.net/)
 
-  1. Download and logging to [ngrok](https://ngrok.com/)
-
-  1. Re-direct port
-
-      `ngrok http $FLASK_PORT`
+    Should be as simple as `ssh -R 80:localhost:$FLASK_PORT serveo.net`
 
 ## Setup
 
