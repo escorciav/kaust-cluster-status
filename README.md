@@ -19,15 +19,15 @@ Requirements: python-3, pandas
 
     1. @ibex `python gdragon.py`
 
-3. (Optional) Expose server with [serveo](https://serveo.net/)
+3. (Optional) Make server accessible if ports are blocked
 
-    Should be as simple as `ssh -R 80:localhost:$FLASK_PORT serveo.net`
+    Should be as simple as `ssh -vR 8000:localhost:5000 [user-name]@[server]`
 
 ## Setup
 
 1. [Install miniconda or anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html#installing-on-linux).
 
-    > Skip this step if you already have 
+    > Skip this step if you already have
 
 1. Create the environment
 
