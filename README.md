@@ -39,17 +39,25 @@ That's all. Don't forget to activate the environment before running any program.
 
 ## Documentation
 
+Currently, all the heavy lifting is done in [cluster.py](cluster.py).
+This module simply retrieves status of the cluster from SLURM via [`subprocess`](https://docs.python.org/3/library/subprocess.html)/shell calls.
+We recommend to navigate the code from [server.py](server.py) to get an idea was going on. The most important functions are partially documented. You can also reach us, and contribute with more documentation.
+
 ### Cluster info
 
 Grab info about nodes
 
 `sinfo -o "%n %A %D %P %T %c %z %m %d %w %f %G"`
 
+TODO: explain what all those `%?` means. low-priority in favor of using [this](#new-request-protocol---help-wanted).
+
 ### Available GPUs
 
 Behind scenes combines [cluster info](#Cluster-info) and `squeue -o "%u %i %t %b %N"`
 
-## Extras
+TODO: explain what all those `%?` means. low-priority in favor of using [this](#new-request-protocol---help-wanted).
+
+### Extras
 
 1. Show reservation
 
@@ -59,7 +67,7 @@ Behind scenes combines [cluster info](#Cluster-info) and `squeue -o "%u %i %t %b
 
   `scontrol -o show node`
 
-## TODO - Help wanted
+## New request protocol - Help wanted
 
 Implement the feats described in issues #9, #5 .
 
